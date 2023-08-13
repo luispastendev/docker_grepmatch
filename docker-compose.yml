@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  app:
+    container_name: grepmatch
+    build: .
+    ports: 
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/var/www/html/
+  db: 
+    container_name: db_grepmatch
+    platform: linux/x86_64
+    image: mysql:8.1
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_PASSWORD: secret
+      MYSQL_USER: dummyuser
+    volumes:
+      - ./bin/mysql:/var/lib/mysql
+    depends_on:
+      - app
